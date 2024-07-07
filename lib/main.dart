@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screens/add%20_to_cart_screen.dart';
-import 'package:food_delivery_app/screens/check_out_screen.dart';
-import 'package:food_delivery_app/screens/dashboard_screen.dart';
-import 'package:food_delivery_app/screens/bottom_navigation_pages/home_screen.dart';
-import 'package:food_delivery_app/screens/login_screen.dart';
-import 'package:food_delivery_app/screens/register_screen.dart';
-import 'package:food_delivery_app/screens/splash_screen.dart';
+import 'package:food_delivery_app/features/cart/ui/screens/add%20_to_cart_screen.dart';
+import 'package:food_delivery_app/features/checkout/ui/screens/check_out_screen.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/dashboard_screen.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/home_screen.dart';
+import 'package:food_delivery_app/features/authentication/ui/screens/login_screen.dart';
+import 'package:food_delivery_app/features/authentication/ui/screens/register_screen.dart';
+import 'package:food_delivery_app/features/splash/ui/screens/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 

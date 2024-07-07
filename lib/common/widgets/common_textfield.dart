@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class CommonTextField extends StatelessWidget {
   final IconData prefixIcon;
   final String hintText;
   final Color textFieldColor;
   bool isObscure;
+  final TextEditingController controller;
   final String? Function(String?)? validator;
   CommonTextField(
       {super.key,
@@ -17,7 +18,8 @@ class CommonTextField extends StatelessWidget {
       required this.hintText,
       required this.textFieldColor,
       required this.isObscure,
-      required this.validator});
+      required this.validator,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class CommonTextField extends StatelessWidget {
             color: textFieldColor, borderRadius: BorderRadius.circular(30)),
         margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: TextFormField(
+          controller: controller,
           validator: validator,
           obscureText: isObscure,
           decoration: InputDecoration(

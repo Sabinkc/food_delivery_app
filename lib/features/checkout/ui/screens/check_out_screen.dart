@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:food_delivery_app/common/common_button.dart';
-import 'package:food_delivery_app/common/common_checkout_itemlistcard.dart';
-import 'package:food_delivery_app/common/common_textfield.dart';
+import 'package:food_delivery_app/common/widgets/common_button.dart';
+import 'package:food_delivery_app/common/widgets/common_checkout_itemlistcard.dart';
+import 'package:food_delivery_app/common/widgets/common_textfield.dart';
 import 'package:food_delivery_app/common/constants.dart';
 
 class CheckOutScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class CheckOutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 223, 232, 237),
+        backgroundColor: Constants.backgroundGreyColor,
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: SingleChildScrollView(
@@ -105,12 +105,14 @@ class CheckOutScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         CommonTextField(
+                            controller: TextEditingController(),
                             prefixIcon: Icons.details,
                             hintText: "Enter your number",
                             textFieldColor: Colors.grey.withOpacity(0.1),
                             isObscure: false,
                             validator: (value) {}),
                         CommonTextField(
+                            controller: TextEditingController(),
                             prefixIcon: Icons.place,
                             hintText: "Enter your address",
                             textFieldColor: Colors.grey.withOpacity(0.1),

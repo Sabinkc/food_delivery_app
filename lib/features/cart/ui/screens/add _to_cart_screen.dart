@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:food_delivery_app/common/common_button.dart';
+import 'package:food_delivery_app/common/widgets/common_button.dart';
 import 'package:food_delivery_app/common/constants.dart';
 
 class AddtoCartScreen extends StatelessWidget {

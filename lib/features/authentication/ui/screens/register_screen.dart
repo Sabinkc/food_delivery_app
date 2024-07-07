@@ -1,12 +1,15 @@
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/common/common_button.dart';
-import 'package:food_delivery_app/common/common_textfield.dart';
+import 'package:food_delivery_app/common/widgets/common_button.dart';
+import 'package:food_delivery_app/common/widgets/common_textfield.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:food_delivery_app/screens/login_screen.dart';
-import '../common/common_password_textfield.dart';
-import '../common/constants.dart';
-import 'bottom_navigation_pages/home_screen.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/dashboard_screen.dart';
+import 'package:food_delivery_app/features/authentication/ui/screens/login_screen.dart';
+import '../../../../common/widgets/common_password_textfield.dart';
+import '../../../../common/constants.dart';
+import '../../../dashboard/ui/screens/bottom_navigation_screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,14 +20,47 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final initailPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final passwordController = TextEditingController();
+  // final confirmPasswordController = TextEditingController();
+  final emailController = TextEditingController();
 
   @override
   void dispose() {
-    initailPasswordController.dispose();
-    confirmPasswordController.dispose();
+    passwordController.dispose();
     super.dispose();
+  }
+
+  Future SignUp(String email, String password) async {
+    if (email == "" || password == "") {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Enter the required field"),
+        ),
+      );
+    } else {
+      try {
+        UserCredential? _userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashBoardScreen()));
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Registered successfully"),
+            ),
+          );
+        });
+      } on FirebaseAuthException catch (e) {
+        showDialog(
+            context: context,
+            builder: ((context) => AlertDialog(
+                  title: Text(e.toString()),
+                )));
+      }
+      ;
+    }
   }
 
   @override
@@ -57,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 20,
                 ),
                 CommonTextField(
+                  controller: emailController,
                   prefixIcon: Icons.email,
                   hintText: "Enter your email",
                   textFieldColor: Colors.white,
@@ -71,11 +108,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   },
                 ),
-                // confirm password not working
+
                 CommonPasswordTextField(
-                    controller: initailPasswordController,
+                    controller: passwordController,
                     prefixIcon: Icons.lock,
-                    hintText: "Enter your password",
+                    hintText: "Enter password",
                     textFieldColor: Colors.white,
                     isObscure: true,
                     validator: (value) {
@@ -88,23 +125,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     }),
                 // confirm password field is Not working
-                CommonPasswordTextField(
-                    controller: confirmPasswordController,
-                    prefixIcon: Icons.lock,
-                    hintText: "Confirm Password",
-                    textFieldColor: Colors.white,
-                    isObscure: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter required fields";
-                      } else if (confirmPasswordController.text !=
-                          initailPasswordController.text) {
-                        return "Re-enter your password";
-                      } else {
-                        return null;
-                      }
-                    }),
+                // CommonPasswordTextField(
+                //     controller: confirmPasswordController,
+                //     prefixIcon: Icons.lock,
+                //     hintText: "Confirm Password",
+                //     textFieldColor: Colors.white,
+                //     isObscure: true,
+                //     validator: (value) {
+                //       if (value == null || value.isEmpty) {
+                //         return "Please enter required fields";
+                //       } else if (confirmPasswordController.text !=
+                //           initailPasswordController.text) {
+                //         return "Re-enter your password";
+                //       } else {
+                //         return null;
+                //       }
+                //     }),
                 CommonTextField(
+                    controller: TextEditingController(),
                     prefixIcon: Icons.people,
                     hintText: "Username",
                     textFieldColor: Colors.white,
@@ -117,6 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     }),
                 CommonTextField(
+                    controller: TextEditingController(),
                     prefixIcon: Icons.place,
                     hintText: "Address",
                     textFieldColor: Colors.white,
@@ -135,9 +174,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   buttonText: "Register",
                   buttonColor: Colors.red,
                   onTap: () {
+                    // problem is in passwordController.text
+                    print(emailController.text);
                     if (_formKey.currentState!.validate()) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => HomeScreen())));
+                      SignUp(emailController.text, passwordController.text);
                     }
                   },
                 ),

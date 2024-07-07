@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:food_delivery_app/screens/hometabpages/burger_page.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/burger_page.dart';
 
-import '../../common/constants.dart';
-import '../hometabpages/top_sale_page.dart';
+import '../../../../../common/constants.dart';
+import '../hometabscreens/top_sale_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,9 +42,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   text: "Top Sales",
                 ),
                 Tab(
-                  text: "Burgers",
-                ),
-                Tab(
                   text: "Salads",
                 ),
                 Tab(
@@ -56,12 +53,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Tab(
                   text: "Chicken",
                 ),
+                Tab(
+                  text: "Burgers",
+                ),
               ]),
         ),
         Expanded(
           child: TabBarView(controller: _tabController, children: [
             TopSalePage(),
-            BurgerPage(),
+            Center(
+              child: Text("Tab2"),
+            ),
             Center(
               child: Text("Tab3"),
             ),
@@ -71,9 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             Center(
               child: Text("Tab5"),
             ),
-            Center(
-              child: Text("Tab6"),
-            ),
+            BurgerPage(),
           ]),
         ),
       ],

@@ -1,11 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/screens/bottom_navigation_pages/home_screen.dart';
-import 'package:food_delivery_app/screens/register_screen.dart';
-import '../common/common_button.dart';
-import '../common/common_password_textfield.dart';
-import '../common/common_textfield.dart';
-import '../common/constants.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/home_screen.dart';
+import 'package:food_delivery_app/features/authentication/ui/screens/register_screen.dart';
+import '../../../../common/widgets/common_button.dart';
+import '../../../../common/widgets/common_password_textfield.dart';
+import '../../../../common/widgets/common_textfield.dart';
+import '../../../../common/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../dashboard/ui/screens/dashboard_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -16,6 +19,35 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future SignIn(String email, String password) async {
+    if (email == "" || password == "") {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Enter the required field"),
+        ),
+      );
+    } else {
+      try {
+        UserCredential? _userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DashBoardScreen()));
+        });
+      } on FirebaseAuthException catch (e) {
+        showDialog(
+            context: context,
+            builder: ((context) => AlertDialog(
+                  title: Text(e.toString()),
+                )));
+      }
+      ;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +76,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 height: 20,
               ),
               CommonTextField(
+                controller: emailController,
                 prefixIcon: Icons.email,
                 hintText: "Enter your email",
                 textFieldColor: Colors.white,
@@ -59,9 +92,9 @@ class _LogInScreenState extends State<LogInScreen> {
                 },
               ),
               CommonPasswordTextField(
-                controller: TextEditingController(),
+                controller: passwordController,
                 prefixIcon: Icons.lock,
-                hintText: "Enter your password",
+                hintText: "Enter password",
                 textFieldColor: Colors.white,
                 isObscure: true,
                 validator: (value) {
@@ -82,8 +115,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 buttonColor: Colors.red,
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => HomeScreen())));
+                    SignIn(emailController.text, passwordController.text);
                   }
                   print("common button pressed");
                 },

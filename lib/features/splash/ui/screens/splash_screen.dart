@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:food_delivery_app/screens/login_screen.dart';
+import 'package:food_delivery_app/features/authentication/ui/screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../common/constants.dart';
+import '../../../../common/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

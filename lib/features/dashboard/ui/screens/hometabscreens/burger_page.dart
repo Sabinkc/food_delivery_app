@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:food_delivery_app/common/constants.dart';
-import 'package:food_delivery_app/common/common_item_list_card.dart';
+import 'package:food_delivery_app/common/widgets/common_item_list_card.dart';
 
 class BurgerPage extends StatefulWidget {
   const BurgerPage({super.key});
