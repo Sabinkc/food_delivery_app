@@ -5,6 +5,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:food_delivery_app/common/constants.dart';
 import 'package:food_delivery_app/common/widgets/common_item_list_card.dart';
+import 'package:food_delivery_app/features/favourite/provider/favourite_provider.dart';
+import 'package:provider/provider.dart';
 
 class BurgerPage extends StatefulWidget {
   const BurgerPage({super.key});
@@ -27,16 +29,29 @@ class _BurgerPageState extends State<BurgerPage> {
               ));
             } else if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
-                return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: ((context, index) {
-                      return CommonItemListCard(
-                          imageUrl: snapshot.data!.docs[index]["imageUrl"],
-                          foodName: snapshot.data!.docs[index]["itemName"],
-                          restaurantName: snapshot.data!.docs[index]
-                              ["restaurant"],
-                          price: snapshot.data!.docs[index]["price"]);
-                    }));
+                return Consumer<FavouriteProvider>(
+                  builder: (context, FavouriteProvider, child) {
+                    
+                    return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: ((context, index) {
+                          var burgerItem = snapshot.data!.docs[index];
+                          String burgerId = burgerItem.id;
+                          return CommonItemListCard(
+                              onFavouriteIconPressed: () {
+                                FavouriteProvider
+                                    .toogleFavouriteBurgerIds(burgerId);
+                              },
+                              isFavourite:
+                                  FavouriteProvider.isFavouriteBurger(burgerId),
+                              imageUrl: snapshot.data!.docs[index]["imageUrl"],
+                              foodName: snapshot.data!.docs[index]["itemName"],
+                              restaurantName: snapshot.data!.docs[index]
+                                  ["restaurant"],
+                              price: snapshot.data!.docs[index]["price"]);
+                        }));
+                  },
+                );
               } else {
                 return Center(child: Text("Failed to load data"));
               }
@@ -49,3 +64,4 @@ class _BurgerPageState extends State<BurgerPage> {
         }));
   }
 }
+

@@ -1,11 +1,14 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/checkout_history_screen.dart';
-import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/favourite_screen.dart';
+import 'package:food_delivery_app/features/favourite/provider/favourite_provider.dart';
+import 'package:food_delivery_app/features/favourite/ui/screens/favourite_screen.dart';
 import 'package:food_delivery_app/features/dashboard/ui/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/burger_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/constants.dart';
 import '../../../search/ui/screens/search_screen.dart';
@@ -131,6 +134,17 @@ class _HomeScreenState extends State<DashBoardScreen>
                     IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),
               ),
               Divider(),
+              ListTile(
+                onTap: () {},
+                textColor: Colors.grey,
+                leading:
+                    IconButton(onPressed: () {}, icon: Icon(Icons.light_mode)),
+                title: Text(
+                  "SwitchLightMode",
+                ),
+                trailing:
+                    IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),
+              ),
             ],
           ),
         ),
@@ -155,7 +169,25 @@ class _HomeScreenState extends State<DashBoardScreen>
                 )),
             BottomNavigationBarItem(
                 label: "Favourites",
-                icon: Icon(Icons.favorite_outline_outlined)),
+                icon: Consumer<FavouriteProvider>(
+                  builder: (context, FavouriteProvider, child) {
+                    int totalFavourites =
+                        FavouriteProvider.favouriteTopSaleIndex.length +
+                            FavouriteProvider.favouriteDrinksIndex.length +
+                            FavouriteProvider.favouriteDessertsIndex.length +
+                            FavouriteProvider.favouriteChickenItemIndex.length +
+                            FavouriteProvider.favouriteBurgerIds.length;
+                    return Badge(
+                        // badgeAnimation: BadgeAnimation.fade(),
+                        badgeStyle:
+                            BadgeStyle(badgeColor: Constants.primaryColor),
+                        badgeContent: Text(
+                          "${totalFavourites}",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        child: Icon(Icons.favorite_outline_outlined));
+                  },
+                )),
             BottomNavigationBarItem(
                 label: "Cart",
                 icon: Icon(

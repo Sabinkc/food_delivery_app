@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/burger_page.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/chicken_page.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/dessert_page.dart';
+import 'package:food_delivery_app/features/dashboard/ui/screens/hometabscreens/drinks_page.dart';
 
 import '../../../../../common/constants.dart';
 import '../hometabscreens/top_sale_page.dart';
@@ -15,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final TabController _tabController =
-      TabController(length: 6, vsync: this);
+      TabController(length: 5, vsync: this);
 
   int selectedIndex = 0;
 
@@ -42,16 +45,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   text: "Top Sales",
                 ),
                 Tab(
-                  text: "Salads",
-                ),
-                Tab(
                   text: "Drinks",
                 ),
                 Tab(
-                  text: "Sweets",
+                  text: "Chicken",
                 ),
                 Tab(
-                  text: "Chicken",
+                  text: "Desserts",
                 ),
                 Tab(
                   text: "Burgers",
@@ -61,18 +61,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Expanded(
           child: TabBarView(controller: _tabController, children: [
             TopSalePage(),
-            Center(
-              child: Text("Tab2"),
-            ),
-            Center(
-              child: Text("Tab3"),
-            ),
-            Center(
-              child: Text("Tab4"),
-            ),
-            Center(
-              child: Text("Tab5"),
-            ),
+            DrinkPage(),
+            ChickenPage(),
+            DessertPage(),
             BurgerPage(),
           ]),
         ),
